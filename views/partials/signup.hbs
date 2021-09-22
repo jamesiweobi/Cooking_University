@@ -1,0 +1,98 @@
+<div
+    id='rooter'
+    class='cover-container w-100 d-flex h-100 p-3 mx-auto flex-column'
+>
+    <header class='masthead mb-auto'>
+        <div class='inner'>
+            <h3 class='masthead-brand'>CookUni</h3>
+            <nav class='nav nav-masthead justify-content-center'>
+                <a class='nav-link' href='#'>Home</a>
+                <a class='nav-link' href='#'>Welcome, {{names}}!</a>
+                <a class='nav-link' href='#'>Share recipe</a>
+                <a class='nav-link' href='#'>Logout</a>
+                <a class='nav-link' href='#'>Login</a>
+                <a class='nav-link' href='#'>Register</a>
+            </nav>
+        </div>
+    </header>
+
+    {{! Template start }}
+
+    <form class='text-center p-5 form-layout' action='#' method='POST'>
+        <p class='h4 mb-4'>Sign up</p>
+
+        <div class='form-row mb-4'>
+            <div class='col'>
+                <input
+                    type='text'
+                    id='defaultRegisterFormFirstName'
+                    class='form-control'
+                    name='firstName'
+                    placeholder='First name'
+                />
+            </div>
+            <div class='col'>
+                <input
+                    type='text'
+                    id='defaultRegisterFormLastName'
+                    class='form-control'
+                    name='lastName'
+                    placeholder='Last name'
+                />
+            </div>
+        </div>
+
+        <input
+            type='text'
+            id='defaultRegisterFormUsername'
+            class='form-control mb-4'
+            name='username'
+            placeholder='Username'
+        />
+        <input
+            type='password'
+            id='defaultRegisterFormPassword'
+            class='form-control'
+            name='password'
+            placeholder='Password'
+        />
+        <hr />
+        <input
+            type='password'
+            id='defaultRegisterRepeatPassword'
+            class='form-control'
+            name='repeatPassword'
+            placeholder='Repeat Password'
+        />
+        <button class='btn btn-danger my-4 btn-block w-25 m-auto' type='submit'>
+            Sign up
+        </button>
+    </form>
+
+    {{! Template end }}
+    <footer class='mastfoot mt-5 text-center text-light'>
+        <div class='inner'>
+            <p>Made with &hearts; by <a href='#/home'>CookUni</a>.</p>
+        </div>
+        <i class='fa fa-heart'></i>
+    </footer>
+</div>
+
+<script
+    src='https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js'
+></script>
+<script
+    src='https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js'
+></script>
+<script
+    src='https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js'
+></script>
+
+<script>
+    const firebaseConfig = { apiKey: "AIzaSyAS-Zf6AM6joyRYJZTOMTLZ3UElLg6aBMU",
+    authDomain: "cooking-uni.firebaseapp.com", projectId: "cooking-uni",
+    storageBucket: "cooking-uni.appspot.com", messagingSenderId: "39341665230",
+    appId: "1:39341665230:web:bef8f449af8d1be749599f", measurementId:
+    "G-KZF3JS2P8W" }; // Initialize Firebase const app =
+    initializeApp(firebaseConfig); const analytics = getAnalytics(app);
+</script>
