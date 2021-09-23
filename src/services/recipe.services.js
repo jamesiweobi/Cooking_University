@@ -15,24 +15,24 @@ class RecipeServices {
     getAllRecipes = async () => {
         try {
             const snapShot = await this.admin.get();
-            const recipesList = snapShot.docs.map((doc) => ({
+            const list = snapShot.docs.map((doc) => ({
                 id: doc.id,
                 ...doc.data(),
             }));
-            return recipesList;
+            return list;
         } catch (err) {
             throw err;
         }
     };
 
-    getOneRecipes = async (id) => {
+    getOneRecipe = async (id) => {
         try {
             const snapShot = await this.admin.get();
             const recipesList = snapShot.docs.map((doc) => ({
                 id: doc.id,
                 ...doc.data(),
             }));
-            return recipesList.filter((doc) => doc.id === id);
+            return await recipesList.filter((doc) => doc.id === id);
         } catch (err) {
             throw err;
         }

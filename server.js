@@ -1,7 +1,6 @@
 const express = require('express');
 const hbs = require('express-handlebars');
 const app = express();
-const jwt = require('jsonwebtoken');
 const userRouter = require('./src/routes/user.routes');
 const recipesRouter = require('./src/routes/recipe.router');
 const cors = require('cors');
