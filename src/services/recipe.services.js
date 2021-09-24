@@ -32,7 +32,7 @@ class RecipeServices {
                 id: doc.id,
                 ...doc.data(),
             }));
-            return await recipesList.filter((doc) => doc.id === id);
+            return recipesList.filter((doc) => doc.id === id);
         } catch (err) {
             throw err;
         }
@@ -50,6 +50,22 @@ class RecipeServices {
         try {
             delete recipeBody.id;
             return this.admin.doc(id).update(recipeBody);
+        } catch (err) {
+            throw err;
+        }
+    };
+    updateLikes = async (find) => {
+        try {
+            const snapShot = await this.admin.get();
+            const recipesList = snapShot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+            const recipe = recipesList.filter((doc) => doc.id === find)[0];
+            recipe.recipe.likesCounter += 1;
+            const { id } = recipe;
+            delete recipe.id;
+            return await this.admin.doc(id).update(recipe);
         } catch (err) {
             throw err;
         }

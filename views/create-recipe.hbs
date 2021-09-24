@@ -1,0 +1,106 @@
+<div
+    id='rooter'
+    class='cover-container w-100 d-flex h-100 p-3 mx-auto flex-column'
+>
+    <header class='masthead mb-auto'>
+        <div class='inner'>
+            <h3 class='masthead-brand'>CookUni</h3>
+            <nav class='nav nav-masthead justify-content-center'>
+                <a class='nav-link' href='http://localhost:4000/home'>Home</a>
+                <a class='nav-link' href='#'>Welcome, {{names}}!</a>
+                <a class='nav-link' href='#'>Share recipe</a>
+                <a class='nav-link' href='#'>Logout</a>
+                <a class='nav-link' href='#'>Login</a>
+                <a class='nav-link' href='#'>Register</a>
+            </nav>
+        </div>
+    </header>
+
+    {{! Template start }}
+
+    <div id='notifications'>
+        <div id='successBox' class='alert alert-success' role='alert'>
+            {Success Message...}
+        </div>
+        <div
+            id='loadingBox'
+            class='alert alert-info'
+            role='alert'
+        >Loading...</div>
+        <div id='errorBox' class='alert alert-danger' role='alert'>
+            {Error Message...}
+        </div>
+    </div>
+
+    <form
+        class='text-center p-5 form-layout'
+        action='#'
+        method='POST'
+        id='edit-receipt-form'
+    >
+        <p class='h4 mb-4'>Edit Recipe</p>
+
+        <input
+            type='text'
+            id='defaultRecepieEditMeal'
+            name='meal'
+            class='form-control mb-4'
+            placeholder='Meal'
+            value=''
+        />
+
+        <input
+            type='text'
+            id='defaultRecepieEditIngredients'
+            name='ingredients'
+            class='form-control mb-4'
+            placeholder='Ingredients'
+            value=''
+        />
+
+        <textarea
+            type='text'
+            id='defaultRecepieEditMethodOfPreparation'
+            name='prepMethod'
+            class='form-control mb-4'
+            placeholder='Method of preparation'
+        ></textarea>
+
+        <textarea
+            type='text'
+            id='defaultRecepieEditDescription'
+            name='description'
+            class='form-control mb-4'
+            placeholder='Description'
+        ></textarea>
+
+        <input
+            type='text'
+            id='defaultRecepieEditFoodImageURL'
+            name='foodImageURL'
+            class='form-control mb-4'
+            placeholder='Food Image URL...'
+            value=''
+        />
+
+        <select name='category' select=''>
+            <option selected>Select category...</option>
+            <option>Vegetables and legumes/beans</option>
+            <option>Fruits</option>
+            <option>Grain Food</option>
+            <option>Milk, cheese, eggs and alternatives</option>
+            <option>Lean meats and poultry, fish and alternatives</option>
+        </select>
+        <button class='btn btn-danger w-25 m-auto my-4 btn-block' type='submit'>
+            Edit it
+        </button>
+    </form>
+
+    {{! Template end }}
+    <footer class='mastfoot mt-5 text-center text-light'>
+        <div class='inner'>
+            <p>Made with &hearts; by <a href='#/home'>CookUni</a>.</p>
+        </div>
+        <i class='fa fa-heart'></i>
+    </footer>
+</div>

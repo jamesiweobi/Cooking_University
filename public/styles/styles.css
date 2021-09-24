@@ -270,10 +270,24 @@ form textarea {
 #successBox,
 #loadingBox,
 #errorBox {
-    display: none;
     text-align: center;
 }
 
+.alert-success {
+    visibility: hidden;
+    /* text-align: center; */
+}
+.alert-info {
+    visibility: hidden;
+    /* text-align: center; */
+}
+.alert-danger {
+    visibility: hidden;
+    /* text-align: center; */
+}
+.visible {
+    visibility: visible !important;
+}
 /*our-team-main*/
 
 /* .color-gray {
@@ -306,3 +320,7 @@ form textarea {
     border-radius: 0.25rem;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
+
+/* .displayHidden {
+    display: visible !important;
+} */

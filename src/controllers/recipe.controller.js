@@ -10,7 +10,6 @@ const createRecipe = (req, res, next) => {
         category,
         foodImageUrl,
         categoryImageUrl,
-        likesCounter,
         createBy,
     } = req.body;
     const recipe = {
@@ -21,9 +20,9 @@ const createRecipe = (req, res, next) => {
         category,
         foodImageUrl,
         categoryImageUrl,
-        likesCounter,
         createBy,
     };
+    recipe.likesCounter = 0;
     const newRecipe = recipeServices.createRecipe(recipe);
     res.status(201).json({
         status: 'success',
@@ -34,7 +33,6 @@ const createRecipe = (req, res, next) => {
 const getAllRecipes = async (req, res, next) => {
     try {
         const allRecipes = await recipeServices.getAllRecipes();
-        console.log(allRecipes);
         res.status(200).json({
             status: 'success',
             data: allRecipes,
@@ -54,7 +52,7 @@ const getOneRecipe = async (req, res, next) => {
     }
     return res.status(200).json({
         status: 'success',
-        data: recipe,
+        data: recipe[0],
     });
 };
 
@@ -69,11 +67,45 @@ const deleteRecipe = async (req, res, next) => {
 };
 
 const updateRecipe = async (req, res, next) => {
-    const { id } = req.body;
-    // TODO: Only user who created can edit a recipe
+    const { createBy, userId, id } = req.body;
+    if (createBy === userId) {
+        try {
+            const update = await recipeServices.updateRecipe(id, req.body);
+            return res.status(200).json({
+                status: 'success',
+                message: 'Recipe updated successfully',
+                data: update,
+            });
+        } catch (err) {
+            throw err;
+        }
+    } else if (createBy !== userId) {
+        return res.status(401).json({
+            status: 'failed',
+            message: 'Invalid Update credentials',
+        });
+    }
 };
 
 const updateLikes = async (req, res, next) => {
-    // TODO: add a controller to update likes in a recipe
+    const id = req.params.id;
+    try {
+        const update = await recipeServices.updateLikes(id);
+        return res.status(200).json({
+            status: 'success',
+            message: 'Recipe updated successfully',
+            data: update,
+        });
+    } catch (err) {
+        throw err;
+    }
 };
-module.exports = { createRecipe, getAllRecipes, getOneRecipe, deleteRecipe };
+
+module.exports = {
+    createRecipe,
+    getAllRecipes,
+    getOneRecipe,
+    deleteRecipe,
+    updateLikes,
+    updateRecipe,
+};

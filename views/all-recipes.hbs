@@ -6,7 +6,7 @@
         <div class='inner'>
             <h3 class='masthead-brand'>CookUni</h3>
             <nav class='nav nav-masthead justify-content-center'>
-                <a class='nav-link' href='#'>Home</a>
+                <a class='nav-link' href='http://localhost:4000/home'>Home</a>
                 <a class='nav-link' href='#'>Welcome, {{names}}!</a>
                 <a class='nav-link' href='#'>Share recipe</a>
                 <a class='nav-link' href='#'>Logout</a>
@@ -17,7 +17,14 @@
     </header>
 
     {{! Template start }}
+    <h1 class='text-center'>Our Recipes</h1>
 
+    <div id='foodNotFound'>
+        <img
+            src='https://t4.ftcdn.net/jpg/00/62/17/31/240_F_62173114_ozantkVtkPgzL0fxssAkTqKX1FHPr0UW.jpg'
+        />
+        <h3>Food not found...</h3>
+    </div>
     {{! Template end }}
     <footer class='mastfoot mt-5 text-center text-light'>
         <div class='inner'>
