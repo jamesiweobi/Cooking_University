@@ -85,9 +85,11 @@ const getOneUser = async (req, res, next) => {
     const id = req.params.id;
     try {
         const user = await userServices.getUser(id);
-        console.log(user, 'user details');
-        res.send('ok');
-    } catch (err) {}
+        const result = user[0];
+        res.send(result);
+    } catch (err) {
+        console.log(err);
+    }
 };
 
 module.exports = {

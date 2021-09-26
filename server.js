@@ -7,7 +7,7 @@ const cors = require('cors');
 const axios = require('axios');
 const admin = require('./src/fireBaseDB/fireBase');
 const cookieParser = require('cookie-parser');
-const { authMiddleWare } = require('./src/utils/utils');
+const { authMiddleWare, signToken } = require('./src/utils/utils');
 require('dotenv').config();
 
 app.use(express.static(__dirname + '/public'));
@@ -27,6 +27,21 @@ app.engine(
         defaultLayout: 'index',
         layoutsDir: __dirname + '/views/layouts',
         partialsDir: __dirname + '/views/partials',
+        helpers: {
+            loadUrl: function (sString) {
+                return 'http://localhost:4000/recipe-details/' + sString;
+            },
+            shareRecipe: function (sString) {
+                let result = 'http://localhost:4000/create-recipe/' + sString;
+                return result;
+            },
+            recipeSrc: function (sString) {
+                return `/recipes-page/` + sString;
+            },
+            logOutSrc: function (sString) {
+                return `/logout-user/` + sString;
+            },
+        },
     })
 );
 
@@ -49,52 +64,56 @@ app.get('/recipes-page/:slug', async (req, res) => {
     const id = req.params.slug;
     try {
         const user = await axios(`http://localhost:4000/user/${id}`);
-        console.log(user);
-        res.render('all-recipes', { layout: 'index' });
-    } catch (err) {}
+        const recipes = await axios(
+            `http://localhost:4000/recipe/user-recipe/${id}`
+        );
+        const { data } = user;
+        res.render('all-recipes', {
+            layout: 'index',
+            data: data,
+            recipes: recipes.data,
+        });
+    } catch (err) {
+        console.log(err);
+    }
 });
 
 app.get('/recipe-details/:slug', async (req, res) => {
     try {
-        const recipe = await axios(`http://localhost:4000/user/${id}`);
+        console.log('here');
+        return (recipe = await axios(`http://localhost:4000/user/${id}`));
         // TODO: below is the data to render in the page using handle bars
     } catch (err) {}
     res.render('recipe-details', { layout: 'index' });
 });
 
-app.get('/create-recipe/:slug', (req, res) => {
-    const userId = req.params.slug;
-    // TODO: User ID to be used in the create recipe template
-    res.render('create-recipe', { layout: 'index' });
+app.get('/create-recipe/:slug', async (req, res) => {
+    const id = req.params.slug;
+    try {
+        const user = await axios(`http://localhost:4000/user/${id}`);
+        const { data } = user;
+        res.render('create-recipe', { layout: 'index', user: data });
+    } catch (err) {
+        console.log(err);
+    }
 });
 
 app.get('/logout-user/:slug', async (req, res) => {
     admin.collection('Users');
     const id = req.params.slug;
     try {
-        const snapShot = await this.admin.get();
-        const list = snapShot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-        }));
-        const user = list.filter((doc) => doc.id === id);
         const payload = {
-            user_Id: user.id,
+            user_Id: id,
         };
-        user.token = await signToken(payload, '1s');
-        delete user.password;
+        const token = await signToken(payload, '1s');
+        console.log(token);
         res.cookie(
             'access_token',
-            { token: user.token },
+            { token: token },
             {
                 httpOnly: true,
             }
-        )
-            .json({
-                status: 200,
-                message: 'User logged out',
-            })
-            .redirect('/home');
+        ).redirect('/home');
     } catch (err) {
         throw err;
     }

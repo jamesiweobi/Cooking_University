@@ -1,15 +1,14 @@
 const RecipeServices = require('../services/recipe.services');
 const recipeServices = new RecipeServices();
 
-const createRecipe = (req, res, next) => {
+const createRecipe = async (req, res, next) => {
     const {
         meal,
         ingredients,
         prepMethod,
         description,
         category,
-        foodImageUrl,
-        categoryImageUrl,
+        foodImageURL,
         createBy,
     } = req.body;
     const recipe = {
@@ -18,12 +17,12 @@ const createRecipe = (req, res, next) => {
         prepMethod,
         description,
         category,
-        foodImageUrl,
-        categoryImageUrl,
+        foodImageURL,
         createBy,
     };
     recipe.likesCounter = 0;
-    const newRecipe = recipeServices.createRecipe(recipe);
+    const newRecipe = await recipeServices.createRecipe(recipe);
+    console.log(newRecipe);
     res.status(201).json({
         status: 'success',
         message: 'New Recipe created successfully',
@@ -101,6 +100,11 @@ const updateLikes = async (req, res, next) => {
     }
 };
 
+const allUserRecipe = async (req, res, next) => {
+    const id = req.params.id;
+    const recipes = await recipeServices.allUserRecipes(id);
+    res.send(recipes);
+};
 module.exports = {
     createRecipe,
     getAllRecipes,
@@ -108,4 +112,5 @@ module.exports = {
     deleteRecipe,
     updateLikes,
     updateRecipe,
+    allUserRecipe,
 };

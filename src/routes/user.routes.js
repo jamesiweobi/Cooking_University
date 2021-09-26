@@ -9,6 +9,6 @@ const {
 
 router.post('/', signupController);
 router.post('/login', signInController);
-router.post('/:id', logOutController).get('/', getOneUser);
+router.post('/:id', logOutController).get('/:id', getOneUser);
 
 module.exports = router;

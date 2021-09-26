@@ -7,11 +7,9 @@
             <h3 class='masthead-brand'>CookUni</h3>
             <nav class='nav nav-masthead justify-content-center'>
                 <a class='nav-link' href='http://localhost:4000/home'>Home</a>
-                <a class='nav-link' href='#'>Welcome, {{names}}!</a>
-                <a class='nav-link' href='#'>Share recipe</a>
-                <a class='nav-link' href='#'>Logout</a>
-                <a class='nav-link' href='#'>Login</a>
-                <a class='nav-link' href='#'>Register</a>
+                <a class='nav-link' href='#'>Welcome, {{user.firstName}} {{user.lastName}}</a>!</a>
+                <a class='nav-link' href={{shareRecipe user.id}} >Share recipe</a>
+                <a class='nav-link' href={{logOutSrc user.id}}>Logout</a>           
             </nav>
         </div>
     </header>
@@ -19,18 +17,21 @@
     {{! Template start }}
 
     <div id='notifications'>
-        <div id='successBox' class='alert alert-success' role='alert'>
-            {Success Message...}
-        </div>
         <div
-            id='loadingBox'
-            class='alert alert-info'
+            id='successBox'
+            class='alert successBox alert-success'
             role='alert'
-        >Loading...</div>
-        <div id='errorBox' class='alert alert-danger' role='alert'>
-            {Error Message...}
+        >
+            <p class='success-message'></p>
+        </div>
+        <div id='loadingBox' class='alert loadigBox alert-info' role='alert'><p
+                class='loading-message'
+            ></p></div>
+        <div id='errorBox' class='alert alertBox alert-danger' role='alert'>
+            <p class='error-message'></p>
         </div>
     </div>
+
 
     <form
         class='text-center p-5 form-layout'
@@ -82,7 +83,7 @@
             placeholder='Food Image URL...'
             value=''
         />
-
+<input type='hidden' id="userId" value={{user.id}}/>
         <select name='category' select=''>
             <option selected>Select category...</option>
             <option>Vegetables and legumes/beans</option>
@@ -99,8 +100,9 @@
     {{! Template end }}
     <footer class='mastfoot mt-5 text-center text-light'>
         <div class='inner'>
-            <p>Made with &hearts; by <a href='#/home'>CookUni</a>.</p>
+            <p>Made with &hearts; by <a href='/home'>CookUni</a>.</p>
         </div>
         <i class='fa fa-heart'></i>
     </footer>
 </div>
+<script src='../styles/create-recipe.js'></script>

@@ -6,7 +6,7 @@ class RecipeServices {
     }
     createRecipe = async (recipe) => {
         try {
-            return await this.admin.doc().set({ recipe });
+            return await this.admin.doc().set(recipe);
         } catch (err) {
             throw err;
         }
@@ -68,6 +68,20 @@ class RecipeServices {
             return await this.admin.doc(id).update(recipe);
         } catch (err) {
             throw err;
+        }
+    };
+
+    allUserRecipes = async (id) => {
+        try {
+            const snapShot = await this.admin.get();
+            const recipesList = snapShot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+            const userRecipe = recipesList.filter((doc) => doc.createBy === id);
+            return userRecipe;
+        } catch (err) {
+            console.log(err);
         }
     };
 }
