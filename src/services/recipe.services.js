@@ -49,6 +49,7 @@ class RecipeServices {
     updateRecipe = async (id, recipeBody) => {
         try {
             delete recipeBody.id;
+            console.log('here');
             return this.admin.doc(id).update(recipeBody);
         } catch (err) {
             throw err;
@@ -62,7 +63,7 @@ class RecipeServices {
                 ...doc.data(),
             }));
             const recipe = recipesList.filter((doc) => doc.id === find)[0];
-            recipe.recipe.likesCounter += 1;
+            recipe.likesCounter += 1;
             const { id } = recipe;
             delete recipe.id;
             return await this.admin.doc(id).update(recipe);

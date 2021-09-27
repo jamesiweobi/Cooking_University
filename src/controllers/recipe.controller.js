@@ -67,22 +67,22 @@ const deleteRecipe = async (req, res, next) => {
 
 const updateRecipe = async (req, res, next) => {
     const { createBy, userId, id } = req.body;
-    if (createBy === userId) {
-        try {
+    try {
+        if (createBy === userId) {
             const update = await recipeServices.updateRecipe(id, req.body);
-            return res.status(200).json({
+            return res.status(200).send({
                 status: 'success',
                 message: 'Recipe updated successfully',
                 data: update,
             });
-        } catch (err) {
-            throw err;
+        } else if (createBy !== userId) {
+            return res.status(401).send({
+                status: 'failed',
+                message: 'Invalid Update credentials',
+            });
         }
-    } else if (createBy !== userId) {
-        return res.status(401).json({
-            status: 'failed',
-            message: 'Invalid Update credentials',
-        });
+    } catch (err) {
+        console.log(err);
     }
 };
 

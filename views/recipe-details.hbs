@@ -7,11 +7,9 @@
             <h3 class='masthead-brand'>CookUni</h3>
             <nav class='nav nav-masthead justify-content-center'>
                 <a class='nav-link' href='http://localhost:4000/home'>Home</a>
-                <a class='nav-link' href='#'>Welcome, {{names}}!</a>
-                <a class='nav-link' href='#'>Share recipe</a>
-                <a class='nav-link' href='#'>Logout</a>
-                <a class='nav-link' href='#'>Login</a>
-                <a class='nav-link' href='#'>Register</a>
+                <a class='nav-link' href={{homePage data.id}}>Welcome, {{data.firstName}} {{data.lastName}}</a>!</a>
+                <a class='nav-link' href={{shareRecipe data.id}} >Share recipe</a>
+                <a class='nav-link' href={{logOutSrc data.id}}>Logout</a>           
             </nav>
         </div>
     </header>
@@ -23,30 +21,37 @@
             <div class='recepieInfo'>
                 <div class='detailsFoodImage'>
                     <img
-                        src='https://t3.ftcdn.net/jpg/00/25/90/48/240_F_25904887_fhZJ692ukng3vQxzHldvuN981OiYVlJ1.jpg'
+                        src={{recipe.foodImageURL}}
                         alt=''
                     />
                 </div>
 
                 <div class='infoPack'>
-                    <h3 class='my-3'>Meal Name</h3>
-                    <p class='prep-method'>Method of preparation...</p>
-                    <p class='description'>Description ...</p>
+                    <h3 class='my-3'>{{recipe.meal}}</h3>
+                    <p class='prep-method'>{{recipe.prepMethod}}</p>
+                    <p class='description'>{{recipe.description}}</p>
                 </div>
+         {{#if recipe.correctUser}}
                 <div class='actions'>
-                    <a class='btn btn-danger' href='#'>Archive</a>
-                    <a class='btn btn-info' href='#'>Edit</a>
-                    <a class='btn btn-success' href='#'> 900 likes</a>
+                    <a class='btn btn-danger' onclick={{{deleteRecipe recipe.id data.id}}} href='#'>Archive</a>
+                    <a class='btn btn-info' href={{editUrl data.id recipe.id}}>Edit</a>
+                     <a class='btn btn-success' onclick={{{likeRecipe recipe.id}}} href='#'> {{recipe.likesCounter}} likes</a>
                 </div>
+                {{!-- {{correctUser recipe.id}} --}}
+                {{else}}
+                    <div class='actions'>                
+                    <a class='btn btn-success' onclick={{{likeRecipe recipe.id}}} href='#'> {{recipe.likesCounter}} likes</a>
+                   {{!-- {{{notCorrectUser recipe.id recipe.likesCounter}}} --}}
+                </div>
+                {{/if}}
             </div>
 
             <div class='detailsIngredients'>
                 <h3 class='my-3 ingredient'>Ingredients</h3>
                 <ul>
-                    <li>First ingredient</li>
-                    <li>Second ingredient</li>
-                    <li>Third ingredient</li>
-                    <li>...</li>
+                {{#each recipe.ingredients}}
+                    <li>{{this}}</li>
+                {{/each}}
                 </ul>
             </div>
         </div>
@@ -60,3 +65,22 @@
         <i class='fa fa-heart'></i>
     </footer>
 </div>
+<script>
+    const  deleteRecipe = async (id, userId)=>{
+        try{
+      await axios.delete(`http://localhost:4000/recipe/${id}`)
+      document.location = `http://localhost:4000/recipe/${userId}`;
+        }catch(err){
+        console.log(err)
+        }
+    };
+    const likeRecipe = async (id)=> {
+        try{
+     await axios.put(`http://localhost:4000/recipe/like/${id}`, {hello: 'world'})
+     location.reload();
+        }catch(err){
+            console.log(err)
+        }
+    }
+     
+</script>
