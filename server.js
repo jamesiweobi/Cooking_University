@@ -9,7 +9,6 @@ const admin = require('./src/fireBaseDB/fireBase');
 const cookieParser = require('cookie-parser');
 const { authMiddleWare, signToken } = require('./src/utils/utils');
 const ExpressHandlebars = require('express-handlebars/lib/express-handlebars');
-require('dotenv').config();
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.json());
