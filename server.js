@@ -25,7 +25,7 @@ app.engine(
     'hbs',
     hbs({
         extname: 'hbs',
-        defaultLayout: 'index',
+        defaultLayout: 'index.hbs',
         layoutsDir: __dirname + '/views/layouts',
         partialsDir: __dirname + '/views/partials',
         helpers: {
@@ -181,6 +181,9 @@ app.get('/logout-user/:slug', async (req, res) => {
     }
 });
 
+app.get('/', (req, res) => {
+    res.render('home', { layout: 'index' });
+});
 const Port = process.env.PORT || 4000;
 app.listen(Port, () => {
     console.log(`Port listening on http://localhost:${Port}`);
