@@ -1,6 +1,5 @@
 const UserServices = require('../services/user.services');
 const userServices = new UserServices();
-require('dotenv').config();
 const signupController = async (req, res, next) => {
     try {
         const { password, username, firstName, lastName } = req.body;
