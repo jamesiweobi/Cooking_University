@@ -22,7 +22,6 @@ const createRecipe = async (req, res, next) => {
     };
     recipe.likesCounter = 0;
     const newRecipe = await recipeServices.createRecipe(recipe);
-    console.log(newRecipe);
     res.status(201).json({
         status: 'success',
         message: 'New Recipe created successfully',

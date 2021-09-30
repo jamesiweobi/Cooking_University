@@ -19,8 +19,8 @@ submit.addEventListener('click', async (e) => {
         );
     }
     const formData = {
-        firstName: firstName.value,
-        lastName: lastName.value,
+        firstName: firstName.value.toUppercase(),
+        lastName: lastName.value.toUppercase(),
         username: username.value,
         password: password.value,
         repeatPassword: repeatPassword.value,
@@ -53,7 +53,7 @@ submit.addEventListener('click', async (e) => {
     }
 });
 
-const alertMessage = (element, messageClass, message, duration) => {
+const alertMessage = (element, messageClass, message) => {
     element.classList.toggle('visible');
     const innerMessage = document.querySelector(`.${messageClass}`);
     innerMessage.innerHTML = message;

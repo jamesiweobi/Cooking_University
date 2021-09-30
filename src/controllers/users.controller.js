@@ -1,5 +1,6 @@
 const UserServices = require('../services/user.services');
 const userServices = new UserServices();
+
 const signupController = async (req, res, next) => {
     try {
         const { password, username, firstName, lastName } = req.body;

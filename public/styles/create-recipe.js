@@ -23,10 +23,7 @@ submit.addEventListener('click', async (e) => {
         category: category.value,
     };
     try {
-        const result = await axios.post(
-            'http://localhost:4000/recipe',
-            formData
-        );
+        const result = await axios.post('/recipe', formData);
         alertMessage(loadingBox, 'loading-message', 'Loading');
         const { data } = result;
         if (data.status === 'success') {

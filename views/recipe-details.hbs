@@ -6,7 +6,7 @@
         <div class='inner'>
             <h3 class='masthead-brand'>CookUni</h3>
             <nav class='nav nav-masthead justify-content-center'>
-                <a class='nav-link' href='http://localhost:4000/home'>Home</a>
+                <a class='nav-link' href='/home'>Home</a>
                 <a class='nav-link' href={{homePage data.id}}>Welcome, {{data.firstName}} {{data.lastName}}</a>!</a>
                 <a class='nav-link' href={{shareRecipe data.id}} >Share recipe</a>
                 <a class='nav-link' href={{logOutSrc data.id}}>Logout</a>           
@@ -68,15 +68,15 @@
 <script>
     const  deleteRecipe = async (id, userId)=>{
         try{
-      await axios.delete(`http://localhost:4000/recipe/${id}`)
-      document.location = `http://localhost:4000/recipe/${userId}`;
+      await axios.delete(`/recipe/${id}`)
+      document.location = `/recipe/${userId}`;
         }catch(err){
         console.log(err)
         }
     };
     const likeRecipe = async (id)=> {
         try{
-     await axios.put(`http://localhost:4000/recipe/like/${id}`, {hello: 'world'})
+     await axios.put(`/recipe/like/${id}`, {hello: 'world'})
      location.reload();
         }catch(err){
             console.log(err)

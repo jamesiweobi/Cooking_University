@@ -8,7 +8,6 @@ const axios = require('axios');
 const admin = require('./src/fireBaseDB/fireBase');
 const cookieParser = require('cookie-parser');
 const { authMiddleWare, signToken } = require('./src/utils/utils');
-const ExpressHandlebars = require('express-handlebars/lib/express-handlebars');
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.json());
@@ -29,13 +28,13 @@ app.engine(
         partialsDir: __dirname + '/views/partials',
         helpers: {
             loadUrl: function (aString, bString) {
-                return `http://localhost:4000/recipe-details?userId=${aString}&recipe=${bString}`;
+                return `/recipe-details?userId=${aString}&recipe=${bString}`;
             },
             homePage: function (aString) {
-                return `http://localhost:4000/recipe/${aString}`;
+                return `/recipe/${aString}`;
             },
             shareRecipe: function (sString) {
-                let result = 'http://localhost:4000/create-recipe/' + sString;
+                let result = '/create-recipe/' + sString;
                 return result;
             },
             recipeSrc: function (sString) {
@@ -45,7 +44,7 @@ app.engine(
                 return `/logout-user/` + sString;
             },
             editRecipe: function (id) {
-                return `http://localhost:4000/recipe/${id}`;
+                return `/recipe/${id}`;
             },
             deleteRecipe: function (id) {
                 return `deleteRecipe('${id}')`;
@@ -54,7 +53,7 @@ app.engine(
                 return `likeRecipe('${id}')`;
             },
             editUrl: function (aString, bString) {
-                return `http://localhost:4000/edit-recipe?userId=${aString}&recipe=${bString}`;
+                return `/edit-recipe?userId=${aString}&recipe=${bString}`;
             },
             ingredients: function (aString) {
                 return aString.reduce((word, index) => {
@@ -83,8 +82,8 @@ app.get('/signup', (req, res) => {
 app.get('/recipes-page/:slug', async (req, res) => {
     const id = req.params.slug;
     try {
-        const user = await axios(`http://localhost:4000/user/${id}`);
-        const recipes = await axios('http://localhost:4000/recipe');
+        const user = await axios(`/user/${id}`);
+        const recipes = await axios('/recipe');
         const { data } = user;
         const recipeData = recipes.data.data;
         recipeData.forEach((recipe) => {
@@ -105,8 +104,8 @@ app.get('/edit-recipe/', async (req, res) => {
     try {
         const userId = req.query.userId;
         const recipeId = req.query.recipe;
-        const user = await axios(`http://localhost:4000/user/${userId}`);
-        const recipes = await axios(`http://localhost:4000/recipe/${recipeId}`);
+        const user = await axios(`/user/${userId}`);
+        const recipes = await axios(`/recipe/${recipeId}`);
         const { data } = user;
         const recipeData = recipes.data.data;
         res.render('edit-recipe', {
@@ -122,16 +121,14 @@ app.get('/recipe-details/', async (req, res) => {
     try {
         const userId = req.query.userId;
         const recipeId = req.query.recipe;
-        const user = await axios(`http://localhost:4000/user/${userId}`);
-        const recipes = await axios(`http://localhost:4000/recipe/${recipeId}`);
+        const user = await axios(`/user/${userId}`);
+        const recipes = await axios(`/recipe/${recipeId}`);
         const { data } = user;
         const recipeData = recipes.data.data;
         let correctUser;
         const userID = data.id;
         const recipeTest = recipeData.createBy;
         let test = userID === recipeTest;
-
-        console.log(recipeData.data, data, 'hhhhhhhhhhhhhh');
         if (test) {
             correctUser = true;
         } else {
@@ -151,7 +148,7 @@ app.get('/recipe-details/', async (req, res) => {
 app.get('/create-recipe/:slug', async (req, res) => {
     const id = req.params.slug;
     try {
-        const user = await axios(`http://localhost:4000/user/${id}`);
+        const user = await axios(`/user/${id}`);
         const { data } = user;
         res.render('create-recipe', { layout: 'index', user: data });
     } catch (err) {
