@@ -19,8 +19,8 @@ submit.addEventListener('click', async (e) => {
         );
     }
     const formData = {
-        firstName: firstName.value.toUppercase(),
-        lastName: lastName.value.toUppercase(),
+        firstName: firstName.value,
+        lastName: lastName.value,
         username: username.value,
         password: password.value,
         repeatPassword: repeatPassword.value,

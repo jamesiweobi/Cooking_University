@@ -14,6 +14,7 @@ submit.addEventListener('click', async (e) => {
     };
     try {
         const result = await axios.post('/user/login', formData);
+        console.log(result);
         alertMessage(loadingBox, 'loading-message', 'Loading');
         if (result.status === 200) {
             const data = result.data[0];
