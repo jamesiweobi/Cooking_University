@@ -19,6 +19,7 @@ submit.addEventListener('click', async (e) => {
         if (result.status === 200) {
             const data = result.data[0];
             alertMessage(successBox, 'success-message', 'User logged in');
+            console.log(`/recipes-page/${data.id}`);
             window.location.replace(`/recipes-page/${data.id}`);
         } else {
             alertMessage(
@@ -36,7 +37,7 @@ submit.addEventListener('click', async (e) => {
     }
 });
 
-const alertMessage = (element, messageClass, message, duration) => {
+const alertMessage = (element, messageClass, message) => {
     element.classList.toggle('visible');
     const innerMessage = document.querySelector(`.${messageClass}`);
     innerMessage.innerHTML = message;

@@ -1,6 +1,6 @@
 const admin = require('../fireBaseDB/fireBase');
 const { signToken } = require('../utils/utils');
-
+require('dotenv').config();
 class UserServices {
     constructor() {
         this.admin = admin.collection('Users');
