@@ -1,5 +1,7 @@
 const admin = require('../fireBaseDB/fireBase');
 const { signToken } = require('../utils/utils');
+require('dotenv').config();
+
 class UserServices {
     constructor() {
         this.admin = admin.collection('Users');
@@ -7,6 +9,7 @@ class UserServices {
 
     signUp = async (userData) => {
         try {
+            const result = {};
             const snapShot = await this.admin.get();
             const list = snapShot.docs.map((doc) => ({
                 id: doc.id,
@@ -15,12 +18,16 @@ class UserServices {
             const userExists = list.some((doc) => {
                 return doc.username === userData.username;
             });
-            if (userExists)
-                return {
-                    status: 'Failed',
-                    message: 'User-name already exists',
-                };
-            return this.admin.doc().set(userData);
+            if (userExists) {
+                result.status = 'Failed';
+                result.message = 'User-name already exists';
+                result.statusCode = 400;
+                return result;
+            }
+            result.status = 'Success';
+            result.message = 'User Created';
+            result.statusCode = 201;
+            return result;
         } catch (err) {
             throw err;
         }

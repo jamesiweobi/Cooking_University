@@ -1,35 +1,38 @@
 const UserServices = require('../services/user.services');
 const userServices = new UserServices();
 
+require('dotenv').config();
+
 const signupController = async (req, res, next) => {
     try {
+        const result = {};
         const { password, username, firstName, lastName } = req.body;
         if (password.length < 6) {
-            return res.json({
-                error: 'Failed',
-                data: {
-                    result: {
-                        message: 'Password too short!',
-                        status: 'Failed',
-                    },
-                },
+            result.status = 'Failed';
+            result.message = 'Password too short!';
+            result.statusCode = 400;
+        }
+        if (
+            firstName.length < 2 ||
+            lastName.length < 2 ||
+            username.length < 3
+        ) {
+            result.status = 'Failed';
+            result.message = 'Username, lastName or firstName too short.';
+            result.statusCode = 400;
+        }
+        const result2 = await userServices.signUp(req.body);
+        if (result2) {
+            return res.status(result2.statusCode).json({
+                status: result2.status,
+                message: result2.message,
+                data: result2,
             });
         }
-        if (firstName.length < 2 || lastName.length < 2 || username.length < 3)
-            return res.json({
-                error: 'Failed',
-                data: {
-                    result: {
-                        message: 'Username, lastName or firstName too short.',
-                        status: 'Failed',
-                    },
-                },
-            });
-
-        const result = await userServices.signUp(req.body);
-        res.status(201).json({
-            status: 'Success',
-            data: { message: 'User created', result },
+        res.status(result.statusCode).json({
+            status: result.status,
+            message: result.message,
+            data: result,
         });
     } catch (err) {
         console.log(err);
@@ -41,7 +44,7 @@ const signInController = async (req, res, next) => {
         const { username, password } = req.body;
         const user = await userServices.signIn(username, password);
         if (user === 'failed') {
-            return res.json({
+            return res.send({
                 status: '401',
                 message: 'This User does not exist',
             });

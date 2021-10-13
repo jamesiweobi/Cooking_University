@@ -1,6 +1,6 @@
 const RecipeServices = require('../services/recipe.services');
 const recipeServices = new RecipeServices();
-
+require("dotenv").config()
 const createRecipe = async (req, res, next) => {
     const {
         meal,
