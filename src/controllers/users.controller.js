@@ -42,22 +42,28 @@ const signupController = async (req, res, next) => {
 const signInController = async (req, res, next) => {
     try {
         const { username, password } = req.body;
-        const user = await userServices.signIn(username, password);
-        if (user === 'failed') {
-            return res.send({
-                status: '401',
-                message: 'This User does not exist',
+        const result = await userServices.signIn(username, password);
+        if (result.statusCode === 400) {
+            return res.status(result.statusCode).json({
+                result: result,
             });
         }
-        return res
-            .cookie(
-                'access_token',
-                { token: user.token },
-                {
-                    httpOnly: true,
-                }
-            )
-            .send(user);
+        // return res
+        //     .cookie(
+        //         'access_token',
+        //         { token: result.user.token },
+        //         {
+        //             httpOnly: true,
+        //         }
+        //     )
+        //     .json({
+        //         result: result,
+        //     });
+        return res.status(result.statusCode).json({
+            status: result.status,
+            message: result.message,
+            user: result.user,
+        });
     } catch (err) {
         throw err;
     }

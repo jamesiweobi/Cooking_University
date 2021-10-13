@@ -35,6 +35,7 @@ class UserServices {
 
     signIn = async (username, password) => {
         try {
+            const result = {};
             const snapShot = await this.admin.get();
             const list = snapShot.docs.map((doc) => ({
                 id: doc.id,
@@ -44,17 +45,30 @@ class UserServices {
                 return doc.username === username;
             });
             if (userExists === false) {
-                return 'failed';
+                result.status = 'Failed';
+                result.message = 'User not found.';
+                result.statusCode = 400;
+                return result;
             }
             const user = list.filter(
                 (doc) => doc.username === username && doc.password === password
             );
+            if (user.length < 1) {
+                result.status = 'Failed';
+                result.message = 'Username or Password is wrong!';
+                result.statusCode = 400;
+                return result;
+            }
             const payload = {
                 user_Id: user.id,
             };
             user.token = await signToken(payload, '1h');
-            delete user.password;
-            return user;
+            user.password = undefined;
+            result.status = 'Success';
+            result.message = 'User loggin success!';
+            result.statusCode = 200;
+            result.user = user;
+            return result;
         } catch (err) {
             throw err;
         }

@@ -5,23 +5,26 @@ const submit = document.querySelector('.btn');
 const successBox = document.getElementById('successBox');
 const loadingBox = document.getElementById('loadingBox');
 const errorBox = document.getElementById('errorBox');
+let timeout;
 
 submit.addEventListener('click', async (e) => {
     e.preventDefault();
+    clearTimeOut(timeout);
     const formData = {
         username: username.value,
         password: password.value,
     };
     try {
         const result = await axios.post('/user/login', formData);
-        console.log(result);
+        const { data } = result;
         alertMessage(loadingBox, 'loading-message', 'Loading');
-        if (result.status === 200) {
-            const data = result.data[0];
+        if (data.status === 'Success') {
+            clearTimeOut(timeout);
+            const user = data.user[0];
             alertMessage(successBox, 'success-message', 'User logged in');
-            console.log(`/recipes-page/${data.id}`);
-            window.location.replace(`/recipes-page/${data.id}`);
+            window.location.replace(`/recipes-page/${user.id}`);
         } else {
+            clearTimeOut(timeout);
             alertMessage(
                 errorBox,
                 'error-message',
@@ -29,10 +32,11 @@ submit.addEventListener('click', async (e) => {
             );
         }
     } catch (error) {
+        clearTimeOut(timeout);
         alertMessage(
             errorBox,
             'error-message',
-            'Something Went wrong please try again'
+            'Incorrect Username or Password!'
         );
     }
 });
@@ -41,7 +45,12 @@ const alertMessage = (element, messageClass, message) => {
     element.classList.toggle('visible');
     const innerMessage = document.querySelector(`.${messageClass}`);
     innerMessage.innerHTML = message;
-    setTimeout(() => {
+    timeout = setTimeout(() => {
         element.classList.toggle('visible');
     }, 5000);
+    return timeout;
+};
+
+const clearTimeOut = (time) => {
+    clearTimeout(time);
 };
