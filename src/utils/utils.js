@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-require("dotenv").config()
 
 const signToken = async (user, expiresIn) => {
     return await jwt.sign(user, process.env.SIGNATURE, {

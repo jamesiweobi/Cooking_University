@@ -10,7 +10,6 @@ const RecipeServices = require('./src/services/recipe.services');
 const recipeServices = new RecipeServices();
 const UserServices = require('./src/services/user.services');
 const userServices = new UserServices();
-require("dotenv").config()
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.json());

@@ -1,5 +1,4 @@
 const admin = require('../fireBaseDB/fireBase');
-require("dotenv").config()
 
 class RecipeServices {
     constructor() {
