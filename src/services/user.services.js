@@ -1,5 +1,5 @@
 const admin = require('../fireBaseDB/fireBase');
-const { signToken } = require('../utils/utils');s
+const { signToken } = require('../utils/utils');
 
 class UserServices {
     constructor() {
