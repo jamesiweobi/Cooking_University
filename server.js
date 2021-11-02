@@ -27,7 +27,6 @@ app.engine(
         extname: 'hbs',
         defaultLayout: 'index.hbs',
         layoutsDir: __dirname + '/views/layouts',
-        partialsDir: __dirname + '/views/partials',
         helpers: {
             loadUrl: function (aString, bString) {
                 return `/recipe-details?userId=${aString}&recipe=${bString}`;

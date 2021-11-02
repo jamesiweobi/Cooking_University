@@ -23,6 +23,7 @@ class UserServices {
                 result.statusCode = 400;
                 return result;
             }
+            await this.admin.doc().set(userData);
             result.status = 'Success';
             result.message = 'User Created';
             result.statusCode = 201;
